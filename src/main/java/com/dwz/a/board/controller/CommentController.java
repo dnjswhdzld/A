@@ -26,8 +26,8 @@ public class CommentController {
     }
 
     @PostMapping("/delete-comment")
-    public String deleteComment(Comment comment, Long commentId) {
-        commentService.delete(comment, commentId);
+    public String deleteComment(Long commentId) {
+        commentService.delete(commentId);
         return "redirect:/";
     }
 

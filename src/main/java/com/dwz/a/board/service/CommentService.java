@@ -24,19 +24,19 @@ public class CommentService {
 
     @Transactional
     public void update(Comment comment, Long commentId) {
-        Comment updateBoard = commentRepository.findById(commentId);
+        Comment updateComment = commentRepository.findById(commentId);
 
-        updateBoard.setContent(comment.getContent());
+        updateComment.setContent(comment.getContent());
 
-        commentRepository.update(updateBoard);
+        commentRepository.update(updateComment);
     }
 
     @Transactional
     public void delete(Long commentId) {
-        Comment updateBoard = commentRepository.findById(commentId);
+        Comment deleteComment = commentRepository.findById(commentId);
 
-        updateBoard.setDeleteYn("Y");
+        deleteComment.setDeleteYn("Y");
 
-        commentRepository.update(updateBoard);
+        commentRepository.update(deleteComment);
     }
 }
