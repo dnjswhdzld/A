@@ -15,14 +15,35 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-
     @Transactional
-    public Long post(Board board) {
+    public Long create(Board board) {
         boardRepository.create(board);
-        return board.getId();
+        return board.getBoardId();
     }
 
-    public List<Board> findPosts() {
+    @Transactional
+    public void update(Long boardId, Board board) {
+        Board updateBoard = boardRepository.findById(boardId);
+
+        updateBoard.setContent(board.getContent());
+
+        boardRepository.update(updateBoard);
+    }
+
+    @Transactional
+    public void delete(Long boardId) {
+        Board deleteBoard = boardRepository.findById(boardId);
+
+        deleteBoard.setDeleteYn("Y");
+
+        boardRepository.update(deleteBoard);
+    }
+
+    public Board findOne(Long boardId) {
+        return boardRepository.findById(boardId);
+    }
+
+    public List<Board> findBoardList() {
         return boardRepository.findAll();
     }
 

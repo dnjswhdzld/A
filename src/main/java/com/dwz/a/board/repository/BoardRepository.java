@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
@@ -19,10 +18,16 @@ public class BoardRepository {
     @Transactional
     public Long create(Board board) {
         em.persist(board);
-        return board.getId();
+        return board.getBoardId();
     }
 
+    @Transactional
     public void update(Board board) {
+        em.merge(board);
+    }
+
+    @Transactional
+    public void delete(Board board) {
         em.merge(board);
     }
 
@@ -31,7 +36,7 @@ public class BoardRepository {
     }
 
     public List<Board> findAll() {
-        return em.createQuery("select b from Board b", Board.class)
+        return em.createQuery("select b from Board b where b.deleteYn = 'N'", Board.class)
                 .getResultList();
     }
 

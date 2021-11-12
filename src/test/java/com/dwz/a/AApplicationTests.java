@@ -27,34 +27,36 @@ class AApplicationTests {
     @Rollback(false)
     public void testBoard() {
 
-        Board board = createBoard();
+        // create
+        Long boardId = createBoard();
 
-        Long id = boardRepository.create(board);
+        Assertions.assertThat(boardRepository.findById(boardId));
 
-        Board findBoard = boardRepository.findById(id);
+        //update
+        Board findBoard = boardRepository.findById(boardId);
+        findBoard.setContent("수정");
+        updateBoard(findBoard);
 
-        Assertions.assertThat(findBoard.getId()).isEqualTo(id);
 
-        Assertions.assertThat(boardRepository.findAll());
     }
 
-    private Board createBoard() {
-
+    private Long createBoard() {
         Board board = new Board();
         board.setTitle("board title2");
         board.setContent("board contents2");
-        return board;
+        return board.getId();
 
     }
 
     private Board updateBoard(Board board) {
-
-        board.setContent("modify content");
-
         boardRepository.update(board);
-
         return board;
+    }
 
+    private Board deleteBoard(Board board) {
+        board.setContent("modify content");
+        boardRepository.delete(board);
+        return board;
     }
 
 

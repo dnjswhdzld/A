@@ -2,25 +2,30 @@ package com.dwz.a.board.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
+@DynamicInsert
 public class Comment {
 
     @Id
-    private Long id;
+    @GeneratedValue
+    @Column(name = "comment_id")
+    private Long commentId;
 
-    @OneToOne
-    @JoinColumn(name = "board_id")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "board_id", nullable = false)
     private Board board;
-
-    private String name;
 
     private String content;
 
+    @ColumnDefault("'N'")
+    private String deleteYn;
 }
